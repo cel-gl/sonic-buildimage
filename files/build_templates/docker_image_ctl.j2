@@ -688,6 +688,7 @@ start() {
 {%- endif %}
 {%- if docker_container_name == "pmon" %}
     -v /usr/share/sonic/firmware:/usr/share/sonic/firmware:rw \
+    -v /var/run/pmon:/var/run/pmon:rw \
 {%- endif %}
 {%- if docker_container_name == "swss" %}
         -e ASIC_VENDOR={{ sonic_asic_platform }} \

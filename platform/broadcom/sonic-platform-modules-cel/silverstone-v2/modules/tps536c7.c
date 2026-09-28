@@ -22,6 +22,7 @@
 #include <linux/module.h>
 #include "pmbus.h"
 
+MODULE_IMPORT_NS(PMBUS);
 
 #define TPS536C7_PROT_VR12_5MV		0x01 /* VR12.0 mode, 5-mV DAC */
 #define TPS536C7_PROT_VR12_5_10MV	0x02 /* VR12.5 mode, 10-mV DAC */
