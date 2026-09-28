@@ -48,12 +48,36 @@ class Fan(PddfFan):
 		13:	0xA3A,
 		14:	0xA41
     }
+    _tray_fan_count = {}
 
     def __init__(self, tray_idx, fan_idx=0, pddf_data=None, pddf_plugin_data=None, is_psu_fan=False, psu_index=0):
         # idx is 0-based 
         PddfFan.__init__(self, tray_idx, fan_idx, pddf_data, pddf_plugin_data, is_psu_fan, psu_index)
         self._api_helper = APIHelper()
         self.target_speed = 0
+
+    def get_name(self):
+        """
+        Retrieves the fan name and patches incorrect indexing/types.
+        """
+        if self.is_psu_fan:
+            return str(super(Fan, self).get_name())
+
+        if not hasattr(self, "_fan_index_fixed"):
+            tray = self.fantray_index
+            if tray not in Fan._tray_fan_count:
+                Fan._tray_fan_count[tray] = 0
+            Fan._tray_fan_count[tray] += 1
+
+            self.fan_index = Fan._tray_fan_count[tray]
+            self._fan_index_fixed = True
+
+        name = super(Fan, self).get_name()
+
+        if isinstance(name, dict):
+            return str(name.get(str(self.fan_index), "Fan {}_{} Unknown".format(self.fantray_index, self.fan_index)))
+
+        return str(name) if name is not None else "Unknown Fan"
 
     def get_speed_tolerance(self):
         """
@@ -178,9 +202,10 @@ class Fan(PddfFan):
         reg = self.FANTRAY_LED_CTRL_REG_MAP.get(self.fantray_index)
         status, result = self._api_helper.cpld_lpc_read(reg)
         offset = (self.fantray_index - 1) % 4
-        mask = 3 << offset
+        shift_bits = offset * 2
+        mask = 3 << shift_bits
         if status == True:
-            result = (int(result, 16) & mask) >> offset
+            result = (int(result, 16) & mask) >> shift_bits
         else:
             result = 0
 
@@ -191,3 +216,11 @@ class Fan(PddfFan):
         }.get(result, self.STATUS_LED_COLOR_OFF)
 
         return status_led
+    
+    def get_status(self):
+        try:
+            if self.get_presence() and self.get_speed() == 0:
+                return False
+            return str(super(Fan, self).get_status())
+        except Exception:
+            return "False"

@@ -1633,7 +1633,6 @@
             ]
         }
     },
-
     "PSU1":
     {
         "dev_info": {"device_type":"PSU"},
@@ -1649,18 +1648,18 @@
                     {"attr_name":"psu_serial_num", "bmc_cmd":"ipmitool fru print 4", "raw": "0", "field_name":"Product Serial", "separator":": ","field_pos":"2"},
                     {"attr_name":"psu_mfr_id", "bmc_cmd":"ipmitool fru print 4", "raw": "0", "field_name":"Product Manufacturer", "separator":": ", "field_pos":"2"},
                     {"attr_name":"psu_hw_rev", "bmc_cmd":"ipmitool fru print 4", "raw": "0", "field_name":"Product Version", "separator":": ", "field_pos":"2"},
-                    { "attr_name":"psu_v_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x73", "raw":"1", "type": "raw", "index": "0", "multiplier":"1035"},
-                    { "attr_name":"psu_v_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x74", "raw":"1", "type": "raw", "index": "0", "multiplier":"59"},
-                    { "attr_name":"psu_i_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x01", "raw":"1", "type": "raw", "index": "0", "multiplier":"47"},
-                    { "attr_name":"psu_i_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x02", "raw":"1", "type": "raw", "index": "0", "multiplier":"496"},
-                    { "attr_name":"psu_p_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x26", "raw":"1", "type": "raw", "index": "0", "multiplier":"10600000"},
-                    { "attr_name":"psu_p_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x27","raw":"1", "type": "raw", "index": "0", "multiplier":"9800000"},
-                    {"attr_name":"psu_fan1_speed_rpm", "type": "sensor value", "name":"PSU1_FAN1_RPM", "raw":"1", "index":"0", "multiplier":"157", "default":"N/A"},
-                    {"attr_name":"psu_v_out_max", "type": "sensor threshold", "name":"PSU1_R_VoltOut", "raw":"1", "index":"5", "multiplier":"1000"},
-                    {"attr_name":"psu_v_out_min", "type": "sensor threshold", "name":"PSU1_R_VoltOut", "raw":"1", "index":"2", "multiplier":"1000"},
-                    {"attr_name":"psu_p_out_max", "type": "sensor threshold", "name":"PSU1_R_PowerOut", "raw":"1", "index":"5", "multiplier":"11800000"},
-                    {"attr_name":"psu_temp1_input", "name":"PSU1_AMBTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "290"},
-                    {"attr_name":"psu_temp1_high_threshold", "name":"PSU1_AMBTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "290"}
+                    { "attr_name":"psu_v_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x75 | awk '{print $1}'`)*1035))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_v_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x76 | awk '{print $1}'`)*59))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_i_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x01 | awk '{print $1}'`)*47))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_i_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x02 | awk '{print $1}'`)*496))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_p_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x26 | awk '{print $1}'`)*10600000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_p_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x27 | awk '{print $1}'`)*9800000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_fan1_speed_rpm", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x21 | awk '{print $1}'`)*157))", "raw":"1", "type":"raw", "default":"N/A"},
+                    { "attr_name":"psu_v_out_max", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x76 | awk '{print $6}'`)*1000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_v_out_min", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x76 | awk '{print $3}'`)*1000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_p_out_max", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x27 | awk '{print $6}'`)*11800000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x46 | awk '{print $1}'`)*290))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x46 | awk '{print $6}'`)*290))", "raw":"1", "type":"raw"}
                 ]
             }
         }
@@ -1681,18 +1680,18 @@
                     {"attr_name":"psu_serial_num", "bmc_cmd":"ipmitool fru print 5", "raw": "0", "field_name":"Product Serial", "separator":": ","field_pos":"2"},
                     {"attr_name":"psu_mfr_id", "bmc_cmd":"ipmitool fru print 5", "raw": "0", "field_name":"Product Manufacturer", "separator":": ", "field_pos":"2"},
                     {"attr_name":"psu_hw_rev", "bmc_cmd":"ipmitool fru print 5", "raw": "0", "field_name":"Product Version", "separator":": ", "field_pos":"2"},
-                    { "attr_name":"psu_v_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x75", "raw":"1", "type": "raw", "index": "0", "multiplier":"1060"},
-                    { "attr_name":"psu_v_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x76", "raw":"1", "type": "raw", "index": "0", "multiplier":"59"},
-                    { "attr_name":"psu_i_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x03", "raw":"1", "type": "raw", "index": "0", "multiplier":"65"},
-                    { "attr_name":"psu_i_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x04", "raw":"1", "type": "raw", "index": "0", "multiplier":"899"},
-                    { "attr_name":"psu_p_in", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x28", "raw":"1", "type": "raw", "index": "0", "multiplier":"10600000"},
-                    { "attr_name":"psu_p_out", "bmc_cmd":"ipmitool raw 0x04 0x2d 0x29","raw":"1", "type": "raw", "index": "0", "multiplier":"9800000"},
-                    {"attr_name":"psu_fan1_speed_rpm", "type": "sensor value", "name":"PSU2_FAN1_RPM", "raw":"1", "index":"0", "multiplier":"131", "default":"N/A"},
-                    {"attr_name":"psu_v_out_max", "type": "sensor threshold", "name":"PSU2_L_VoltOut", "raw":"1", "index":"5", "multiplier":"1000"},
-                    {"attr_name":"psu_v_out_min", "type": "sensor threshold", "name":"PSU2_L_VoltOut", "raw":"1", "index":"2", "multiplier":"1000"},
-                    {"attr_name":"psu_p_out_max", "type": "sensor threshold", "name":"PSU2_L_PowerOut", "raw":"1", "index":"5", "multiplier":"11800000"},
-                    {"attr_name":"psu_temp1_input", "name":"PSU2_AMBTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "290"},
-                    {"attr_name":"psu_temp1_high_threshold", "name":"PSU2_AMBTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "290"}
+                    { "attr_name":"psu_v_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x77 | awk '{print $1}'`)*1060))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_v_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x78 | awk '{print $1}'`)*59))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_i_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x03 | awk '{print $1}'`)*65))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_i_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x04 | awk '{print $1}'`)*899))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_p_in", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x28 | awk '{print $1}'`)*10600000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_p_out", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x29 | awk '{print $1}'`)*9800000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"psu_fan1_speed_rpm", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x22 | awk '{print $1}'`)*131))", "raw":"1", "type":"raw", "default":"N/A"},
+                    { "attr_name":"psu_v_out_max", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x78 | awk '{print $6}'`)*1000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_v_out_min", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x78 | awk '{print $3}'`)*1000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_p_out_max", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x29 | awk '{print $6}'`)*11800000))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2d 0x49 | awk '{print $1}'`)*290))", "raw":"1", "type":"raw"},
+                    { "attr_name":"psu_temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x49 | awk '{print $6}'`)*290))", "raw":"1", "type":"raw"}
                 ]
             }
         }
@@ -1704,48 +1703,48 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"fan1_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan2_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan3_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan4_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan5_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan6_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan7_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan8_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan9_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan10_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan11_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan12_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan13_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan14_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12", "raw":"1", "type":"raw", "mask":"0x2", "index":"2"},
-                    {"attr_name":"fan1_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan2_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan3_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan4_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan5_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan6_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan7_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan8_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan9_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan10_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan11_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan12_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan13_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan14_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12", "raw":"1", "type":"raw", "mask":"0x1", "index":"3"},
-                    {"attr_name":"fan1_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x13", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan2_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x14", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan3_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x15", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan4_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x16", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan5_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x17", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan6_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x18", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan7_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x19", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan8_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1a", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan9_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1b", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan10_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1c", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan11_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1d", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan12_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1e", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan13_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1f", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"},
-                    {"attr_name":"fan14_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x20", "raw":"1", "type":"raw", "mask":"0xff", "index":"0"}
+                    {"attr_name":"fan1_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan2_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan3_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan4_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan5_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan6_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan7_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan8_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan9_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan10_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan11_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan12_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan13_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan14_present", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12 | awk '{print $3}'", "raw":"1", "type":"raw", "mask":"0x2"},
+                    {"attr_name":"fan1_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan2_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0c | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan3_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan4_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0d | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan5_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan6_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0e | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan7_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan8_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x0f | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan9_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan10_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x10 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan11_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan12_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x11 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan13_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan14_direction", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x12 | awk '{print $4}'", "raw":"1", "type":"raw", "mask":"0x1"},
+                    {"attr_name":"fan1_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x13 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan2_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x14 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan3_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x15 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan4_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x16 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan5_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x17 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan6_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x18 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan7_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x19 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan8_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1a | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan9_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1b | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan10_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1c | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan11_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1d | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan12_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1e | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan13_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x1f | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"},
+                    {"attr_name":"fan14_input", "bmc_cmd": "ipmitool raw 0x04 0x2d 0x20 | awk '{print $1}'", "raw":"1", "type":"raw", "mask":"0xff"}
                 ]
             }
         }
@@ -1759,8 +1758,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"BB_U3_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"BB_U3_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x36 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x36 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1773,8 +1772,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"BB_U68_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"BB_U68_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x37 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x37 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1787,8 +1786,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"BMC_TEMP_U9", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"BMC_TEMP_U9", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x38 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x38 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1801,8 +1800,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"CPU_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"CPU_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x39 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x39 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1815,8 +1814,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"DIMM0_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"DIMM0_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x3a | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x3a | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1829,8 +1828,9 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"DIMM1_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"DIMM1_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_crit_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x3b | awk '{print $5}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x3b | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x3b | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1843,8 +1843,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"INLET_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.58", "attr_len":"6"},
-                    {"attr_name":"temp1_high_threshold", "name":"INLET_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.392", "attr_len":"6"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x3c | awk '{print $6}'`)*392/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x3c | awk '{print $1}'`)*58/100))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1857,8 +1857,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"SW_U25_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"SW_U25_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x65 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x65 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1871,8 +1871,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"SW_U26_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "1"},
-                    {"attr_name":"temp1_high_threshold", "name":"SW_U26_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "1"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x66 | awk '{print $6}'`)*1))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x66 | awk '{print $1}'`)*1))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1885,8 +1885,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"TD5_CORE_TEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.471"},
-                    {"attr_name":"temp1_high_threshold", "name":"TD5_CORE_TEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.471"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x67 | awk '{print $6}'`)*471/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x67 | awk '{print $1}'`)*471/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1899,8 +1899,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"PSU1_PFCTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.373"},
-                    {"attr_name":"temp1_high_threshold", "name":"PSU1_PFCTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.373"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x47 | awk '{print $6}'`)*373/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x47 | awk '{print $1}'`)*373/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1913,8 +1913,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"PSU1_SRTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.471"},
-                    {"attr_name":"temp1_high_threshold", "name":"PSU1_SRTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.471"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x48 | awk '{print $6}'`)*471/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x48 | awk '{print $1}'`)*471/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1927,8 +1927,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"PSU2_PFCTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.373"},
-                    {"attr_name":"temp1_high_threshold", "name":"PSU2_PFCTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.373"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x4a | awk '{print $6}'`)*373/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x4a | awk '{print $1}'`)*373/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1941,8 +1941,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"PSU2_SRTEMP", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.471"},
-                    {"attr_name":"temp1_high_threshold", "name":"PSU2_SRTEMP", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.471"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x4b | awk '{print $6}'`)*471/1000))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x4b | awk '{print $1}'`)*471/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1955,8 +1955,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"XP0R7V_VDDCORE_T", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.524"},
-                    {"attr_name":"temp1_high_threshold", "name":"XP0R7V_VDDCORE_T", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.51"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x68 | awk '{print $6}'`)*51/100))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x68 | awk '{print $1}'`)*524/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1969,8 +1969,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"XP3R3V_LEFT_T", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.528"},
-                    {"attr_name":"temp1_high_threshold", "name":"XP3R3V_LEFT_T", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.51"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x69 | awk '{print $6}'`)*51/100))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x69 | awk '{print $1}'`)*528/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
@@ -1983,8 +1983,8 @@
             "ipmitool" : {
                 "attr_list":
                 [
-                    {"attr_name":"temp1_input", "name":"XP3R3V_RIGHT_T", "type":"sensor value", "raw":"1", "index":"0", "multiplier": "0.527"},
-                    {"attr_name":"temp1_high_threshold", "name":"XP3R3V_RIGHT_T", "type":"sensor threshold", "raw":"1", "index":"5", "multiplier": "0.51"}
+                    { "attr_name":"temp1_high_threshold", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x27 0x6a | awk '{print $6}'`)*51/100))", "raw":"1", "type": "raw"},
+                    { "attr_name":"temp1_input", "bmc_cmd":"printf '%x' $(((0x`ipmitool raw 0x04 0x2D 0x6a | awk '{print $1}'`)*527/1000))", "raw":"1", "type": "raw"}
                 ]
             }
         }
