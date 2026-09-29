@@ -23,9 +23,9 @@ def _open_sfp_lock():
     # world-writable and best-effort chmod so that whichever process opens it
     # first, every process can still acquire the flock. Otherwise a root-owned
     # 0644 lock file makes non-root callers fail with PermissionError. (CLS-2274)
-    fd = os.open(SFP_LOCK_FILE, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o644)
+    fd = os.open(SFP_LOCK_FILE, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o666)
     try:
-        os.fchmod(fd, 0o644)
+        os.fchmod(fd, 0o666)
     except OSError:
         pass
     return os.fdopen(fd, "w")

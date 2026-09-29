@@ -1,4 +1,5 @@
 depmod -a
 
 systemctl enable pddf-platform-init.service
-systemctl start pddf-platform-init.service
+# it need d-bus ok, remove start it  since it will start later ,
+# systemctl start pddf-platform-init.service

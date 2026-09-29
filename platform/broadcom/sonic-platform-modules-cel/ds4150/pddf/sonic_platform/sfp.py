@@ -26,19 +26,19 @@ class Sfp(ClsPddfSfp):
 
     def get_port_or_cage_type(self):
         if self.port_index >= 5 and self.port_index <= 28:
-            return self.SFP_CAGE_TYPE_QSFP
+            return "QSFP"
         elif self.port_index == 33 or self.port_index == 34:
-            return self.SFP_CAGE_TYPE_SFP
+            return "SFP"
         elif (self.port_index >= 1 and self.port_index <= 4) or (self.port_index >= 29 and self.port_index <= 32):
-            return self.SFP_CAGE_TYPE_OSFP
+            return "OSFP"
         else:
             return "N/A"
         
     def get_lpmode(self):
-        if self.get_port_or_cage_type() == self.SFP_CAGE_TYPE_SFP:
+        if self.get_port_or_cage_type() == "OSFP":
             return False
                 
-        return super().get_lpmode(True)
+        return super().get_lpmode()
 
     def set_lpmode(self, lpmode):
         return super().set_lpmode(lpmode, True)

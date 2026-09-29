@@ -246,7 +246,7 @@ device:
                           132, 140,
                           158, 166]
             :
-                ENABLE: 1
+                ENABLE: 0
                 SPEED: 800000
                 NUM_LANES: 8
                 FEC_MODE: PC_FEC_RS544_2XN
@@ -260,7 +260,7 @@ device:
                           104, 110, 114, 118,
                           122, 126, 148, 154]
             :
-                ENABLE: 1
+                ENABLE: 0
                 SPEED: 400000
                 NUM_LANES: 4
                 FEC_MODE: PC_FEC_RS544_2XN
@@ -269,7 +269,7 @@ device:
             ?
                 PORT_ID: [64, 174]     # Management port 0 (Pipe 2)
             :
-                ENABLE: 1
+                ENABLE: 0
                 SPEED: 25000
                 NUM_LANES: 1
                 MAX_FRAME_SIZE: 9416
